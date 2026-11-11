@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#050505">
+<title>STARLIGHT</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050505;color:#fff;font-family:Arial,system-ui,sans-serif}
+main{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;text-align:center;gap:18px}
+h1{font-size:clamp(30px,9vw,48px);letter-spacing:5px;margin:0;color:#ffe9a5;text-shadow:0 0 14px #ffbf00}
+p{font-size:clamp(16px,4.5vw,22px);max-width:300px;color:#f5d98a;margin:0 0 8px}
+#bottle{width:min(66vw,290px);height:min(66vw,290px);object-fit:contain;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 0 10px #ffb900);transition:transform .15s}
+#bottle:active{transform:scale(.94)}
+#tap{font-size:13px;color:#a99a73;letter-spacing:1px}
+#gold{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:9;border:0}
+#gold.on{animation:golden30 30s linear forwards}
+#msg{position:fixed;left:50%;bottom:24px;transform:translate(-50%,15px);opacity:0;background:#201600eF;border:1px solid #ffd34c;color:#ffe7a0;padding:12px 16px;border-radius:12px;font-size:14px;z-index:10;transition:opacity .25s,transform .25s;white-space:nowrap}
+#msg.show{opacity:1;transform:translate(-50%,0)}
+@keyframes golden30{
+0%{opacity:1;box-shadow:inset 0 0 24px 5px #ffe96b,inset 0 0 75px 18px #ffb900}
+15%{opacity:1;box-shadow:inset 0 0 32px 8px #ffe96b,inset 0 0 100px 28px #ffb900}
+85%{opacity:.9;box-shadow:inset 0 0 24px 5px #ffe96b,inset 0 0 75px 18px #ffb900}
+100%{opacity:0;box-shadow:inset 0 0 0 0 transparent}
+}
+</style>
+</head>
+<body>
+<main>
+<h1>STARLIGHT</h1>
+<p>Beba do meu líquido e ganhe poderes!</p>
+<img id="bottle" src="starlight.png" alt="Starlight Bottle — toque para beber">
+<div id="tap">TOQUE NA GARRAFA PARA BEBER</div>
+</main>
+<div id="gold"></div><div id="msg">✨ Você tomou a Starlight Bottle!</div>
+<script>
+const bottle=document.getElementById('bottle'),gold=document.getElementById('gold'),msg=document.getElementById('msg');
+let active=false,timer;
+function useBottle(){
+ if(active)return;
+ active=true;
+ gold.classList.remove('on');void gold.offsetWidth;gold.classList.add('on');
+ msg.textContent='✨ Você tomou a Starlight Bottle!';msg.classList.add('show');
+ setTimeout(()=>msg.classList.remove('show'),2500);
+ clearTimeout(timer);
+ timer=setTimeout(()=>{gold.classList.remove('on');msg.textContent='O efeito da Starlight desapareceu...';msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2500);active=false},30000);
+}
+bottle.addEventListener('click',useBottle);
+</script>
+</body>
+</html>
